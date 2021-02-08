@@ -1,0 +1,320 @@
+c:\Program Files\MongoDB\Server\4.4\bin>mongo.exe
+MongoDB shell version v4.4.3
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("4a45d92c-7a01-4b38-b0d0-2c0cbd1df38f") }
+MongoDB server version: 4.4.3
+---
+The server generated these startup warnings when booting:
+        2021-02-06T19:40:52.438+02:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> help
+        db.help()                    help on db methods
+        db.mycoll.help()             help on collection methods
+        sh.help()                    sharding helpers
+        rs.help()                    replica set helpers
+        help admin                   administrative help
+        help connect                 connecting to a db help
+        help keys                    key shortcuts
+        help misc                    misc things to know
+        help mr                      mapreduce
+
+        show dbs                     show database names
+        show collections             show collections in current database
+        show users                   show users in current database
+        show profile                 show most recent system.profile entries with time >= 1ms
+        show logs                    show the accessible logger names
+        show log [name]              prints out the last segment of log in memory, 'global' is default
+        use <db_name>                set current database
+        db.mycoll.find()             list objects in collection mycoll
+        db.mycoll.find( { a : 1 } )  list objects in mycoll where a == 1
+        it                           result of the last line evaluated; use to further iterate
+        DBQuery.shellBatchSize = x   set default number of items to display on shell
+        exit                         quit the mongo shell
+> use my_first_db
+switched to db my_first_db
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+> db.createCollection('students')
+{ "ok" : 1 }
+> show dbs
+admin        0.000GB
+config       0.000GB
+local        0.000GB
+my_first_db  0.000GB
+> db.students.insert({name: "Amin", homeState: "Ramallah", luckyNumber: 15, birthday:{month: 7, day: 2, year: 1994}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "Mohammad", homeState: "Albireh", luckyNumber: 10, birthday:{month: 4, day: 5, year: 1990}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "Abdusalam", homeState: "Nablus", luckyNumber: 2, birthday:{month: 8, day: 3, year: 1994}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "Ahmad", homeState: "Washington", luckyNumber: 8, birthday:{month: 3, day: 1, year: 2000}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "Test", homeState: "testt", luckyNumber: 15, birthday:{month: 7, day: 2, year: 1994}})
+WriteResult({ "nInserted" : 1 })
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c04f03569fc1a318f6e0"), "name" : "Amin", "homeState" : "Ramallah", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0c103569fc1a318f6e1"), "name" : "Mohammad", "homeState" : "Albireh", "luckyNumber" : 10, "birthday" : { "month" : 4, "day" : 5, "year" : 1990 } }
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0d003569fc1a318f6e3"), "name" : "Ahmad", "homeState" : "Washington", "luckyNumber" : 8, "birthday" : { "month" : 3, "day" : 1, "year" : 2000 } }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 } }
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> db.students.find({homeState:Washington})
+uncaught exception: ReferenceError: Washington is not defined :
+@(shell):1:19
+> db.students.find({homeState:"Washington"})
+{ "_id" : ObjectId("6021c0d003569fc1a318f6e3"), "name" : "Ahmad", "homeState" : "Washington", "luckyNumber" : 8, "birthday" : { "month" : 3, "day" : 1, "year" : 2000 } }
+>
+>
+>
+>
+>
+>
+> db.students.find({luckyNumber: {$gte: 3}})
+{ "_id" : ObjectId("6021c04f03569fc1a318f6e0"), "name" : "Amin", "homeState" : "Ramallah", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0c103569fc1a318f6e1"), "name" : "Mohammad", "homeState" : "Albireh", "luckyNumber" : 10, "birthday" : { "month" : 4, "day" : 5, "year" : 1990 } }
+{ "_id" : ObjectId("6021c0d003569fc1a318f6e3"), "name" : "Ahmad", "homeState" : "Washington", "luckyNumber" : 8, "birthday" : { "month" : 3, "day" : 1, "year" : 2000 } }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 } }
+>
+>
+>
+>
+>
+>
+>
+>
+> db.students.find({luckyNumber: {$lte: 10}})
+{ "_id" : ObjectId("6021c0c103569fc1a318f6e1"), "name" : "Mohammad", "homeState" : "Albireh", "luckyNumber" : 10, "birthday" : { "month" : 4, "day" : 5, "year" : 1990 } }
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0d003569fc1a318f6e3"), "name" : "Ahmad", "homeState" : "Washington", "luckyNumber" : 8, "birthday" : { "month" : 3, "day" : 1, "year" : 2000 } }
+>
+>
+>
+>
+>
+>
+>
+> db.students.find({luckyNumber: {$lte: 9, $gte: 1}})
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0d003569fc1a318f6e3"), "name" : "Ahmad", "homeState" : "Washington", "luckyNumber" : 8, "birthday" : { "month" : 3, "day" : 1, "year" : 2000 } }
+>
+>
+>
+>
+>
+>
+>
+> db.students.update({},{$set:{'interests': ['coding', 'brunch', 'MongoDB']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.updateMany({},{$set:{'interests': ['coding', 'brunch', 'MongoDB']}})
+{ "acknowledged" : true, "matchedCount" : 5, "modifiedCount" : 4 }
+> db.students.update({name: 'Amin'},{$set:{'interests': ['Football']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> db.students.update({name: 'Abdusalam'},{$set:{'interests': ['Taxes']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+>
+>
+> db.students.remove({interests:'Taxes')
+...
+...
+>
+>
+>
+>
+> db.students.update({name: 'Abdusalam'},{$unset:{'interests': ['Taxes']}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+>
+>
+>
+>
+>
+>
+> show colllections
+uncaught exception: Error: don't know how to show [colllections] :
+shellHelper.show@src/mongo/shell/utils.js:1191:11
+shellHelper@src/mongo/shell/utils.js:819:15
+@(shellhelp2):1:1
+> show collections
+students
+> show students
+uncaught exception: Error: don't know how to show [students] :
+shellHelper.show@src/mongo/shell/utils.js:1191:11
+shellHelper@src/mongo/shell/utils.js:819:15
+@(shellhelp2):1:1
+> db.students.find({})
+{ "_id" : ObjectId("6021c04f03569fc1a318f6e0"), "name" : "Amin", "homeState" : "Ramallah", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "Football" ] }
+{ "_id" : ObjectId("6021c0c103569fc1a318f6e1"), "name" : "Mohammad", "homeState" : "Albireh", "luckyNumber" : 10, "birthday" : { "month" : 4, "day" : 5, "year" : 1990 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0d003569fc1a318f6e3"), "name" : "Ahmad", "homeState" : "Washington", "luckyNumber" : 8, "birthday" : { "month" : 3, "day" : 1, "year" : 2000 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+>
+>
+>
+>
+> db.students.remove({homeState:"Washington"})
+WriteResult({ "nRemoved" : 1 })
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c04f03569fc1a318f6e0"), "name" : "Amin", "homeState" : "Ramallah", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "Football" ] }
+{ "_id" : ObjectId("6021c0c103569fc1a318f6e1"), "name" : "Mohammad", "homeState" : "Albireh", "luckyNumber" : 10, "birthday" : { "month" : 4, "day" : 5, "year" : 1990 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+>
+>
+>
+>
+>
+>
+> db.students.remove({name:"Amin"})
+WriteResult({ "nRemoved" : 1 })
+>
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c0c103569fc1a318f6e1"), "name" : "Mohammad", "homeState" : "Albireh", "luckyNumber" : 10, "birthday" : { "month" : 4, "day" : 5, "year" : 1990 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+>
+>
+>
+>
+>
+>
+> db.students.remove({luckyNumber: {$gt: 5}}, true)
+WriteResult({ "nRemoved" : 1 })
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 } }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ] }
+>
+>
+>
+>
+>
+>
+>
+> db.students.update({name: 'Abdusalam'},{$set:{'number_of_belts': 0}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+>
+>
+> db.students.update({name: 'Test'},{$set:{'number_of_belts': 0}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 }, "number_of_belts" : 0 }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ], "number_of_belts" : 0 }
+>
+>
+>
+>
+>
+>
+>
+> db.students.updateMany({homeState: 'Texas'},{$set:{'number_of_belts': 1}})
+{ "acknowledged" : true, "matchedCount" : 0, "modifiedCount" : 0 }
+> db.students.updateMany({homeState: 'Nablus'},{$set:{'number_of_belts': 1}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+>
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 }, "number_of_belts" : 1 }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ], "number_of_belts" : 0 }
+>
+>
+>
+>
+>
+>
+>
+>
+> db.students.updateMany( {}, { $rename: { 'number_of_belts': 'belts_earned'} } )
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "luckyNumber" : 2, "birthday" : { "month" : 8, "day" : 3, "year" : 1994 }, "belts_earned" : 1 }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "luckyNumber" : 15, "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ], "belts_earned" : 0 }
+>
+>
+>
+>
+>
+>
+> db.students.updateMany({}, { $unset : { luckyNumber} })
+uncaught exception: ReferenceError: luckyNumber is not defined :
+@(shell):1:41
+> db.students.updateMany({}, { $unset : { luckyNumber:2} })
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "birthday" : { "month" : 8, "day" : 3, "year" : 1994 }, "belts_earned" : 1 }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ], "belts_earned" : 0 }
+>
+>
+>
+>
+>
+>
+>
+>
+> db.students.updateMany({},{$set:{'updated_on': Date()}})
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+>
+>
+>
+> db.students.find({})
+{ "_id" : ObjectId("6021c0c903569fc1a318f6e2"), "name" : "Abdusalam", "homeState" : "Nablus", "birthday" : { "month" : 8, "day" : 3, "year" : 1994 }, "belts_earned" : 1, "updated_on" : "Tue Feb 09 2021 01:13:35 GMT+0200 (West Bank Gaza Standard Time)" }
+{ "_id" : ObjectId("6021c0d603569fc1a318f6e4"), "name" : "Test", "homeState" : "testt", "birthday" : { "month" : 7, "day" : 2, "year" : 1994 }, "interests" : [ "coding", "brunch", "MongoDB" ], "belts_earned" : 0, "updated_on" : "Tue Feb 09 2021 01:13:35 GMT+0200 (West Bank Gaza Standard Time)" }
+>
+
+
+
