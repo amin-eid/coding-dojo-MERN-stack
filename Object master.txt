@@ -1,0 +1,29 @@
+-const threes = pokémon.filter( p => p.id % 3 === 0 );
+console.log(threes);
+
+-const threes = pokémon.filter( p => p.types == "fire" );
+console.log(threes);
+
+-const threes = pokémon.filter( p => p.types.length >1 );
+console.log(threes);
+
+-const pkmnnames = pokémon.map( p => p.name )
+console.log(pkmnnames);
+
+-const pkmnnames = pokémon.filter(p => p.id >99).map( p => p.name )
+console.log(pkmnnames);
+
+-const pkmnnames = pokémon.filter(p => p.types =="poison").map( p => p.name )
+console.log(pkmnnames);
+
+-const pkmnnames = pokémon.filter(p => p.types[1] =="flying").map( p => p.types[0] )
+console.log(pkmnnames);
+
+
+-const pkmnnames = pokémon.filter(p => p.types =="normal")
+let counter = 0;
+for (const obj of pkmnnames) {
+ counter++;
+}
+console.log(counter); 
+
